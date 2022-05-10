@@ -1,26 +1,26 @@
 from loguru import logger
 from telebot.types import Message
 
-from database.utils_db import set_state, set_current_requests
 from loader import bot
+from utils.db_utils.current_requests import set_current_requests
+from utils.db_utils.state import set_state
 
 
 @bot.message_handler(commands=['lowprice'])
 @logger.catch
 def send_lowprice(message: Message) -> None:
     """
-    Функция-хэндлер предлагает ввести город для поиска.
+    Функция-хэндлер предлагает ввести город для поиска lowprice.
     """
+    chat_id: int = message.chat.id
     if message.from_user.full_name != "HotelsFindBot":
         logger.info(
             f"Пользователь {message.from_user.full_name}({message.from_user.username}),"
-            f" message.chat.id - {message.chat.id} запустил команду lowprice"
+            f" message.chat.id - {chat_id} запустил команду lowprice"
         )
     else:
-        logger.info(
-            f"Бот из чата - {message.chat.id} запустил команду lowprice"
-        )
-    set_state(current_id=message.chat.id, user_states='city')
-    set_current_requests(message.chat.id, default=True)
-    set_current_requests(message.chat.id, current_command='lowprice')
-    bot.send_message(message.chat.id, 'Вы выбрали - узнать топ самых дешёвых отелей в городе.\nВ каком городе ищем?')
+        logger.info(f"Бот из чата - {chat_id} запустил команду lowprice")
+    set_state(chat_id, states='city')
+    set_current_requests(chat_id, default=True)
+    set_current_requests(chat_id, current_command='lowprice')
+    bot.send_message(chat_id, 'Вы выбрали - узнать топ самых дешёвых отелей в городе.\nВ каком городе ищем?')

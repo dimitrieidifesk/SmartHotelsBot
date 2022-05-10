@@ -1,13 +1,21 @@
+import time
+
 from loguru import logger
 from telebot import custom_filters
 
-from config_data.config import users_database
-from database.pewee_database import UserStates, Cities, CurrentRequests
+from config_data.config import USER_DATABASE
+from database.pewee_database import UserStates, Cities, CurrentRequests, HotelsPagination
 from loader import bot
+from utils.db_utils.database_history import create_pickle
 from utils.set_bot_commands import set_default_commands
 import handlers
 
-if __name__ == '__main__':
+
+@logger.catch
+def main() -> None:
+    """
+    Функция запускает бота
+    """
     logger.add(
         'logs/logs.log',
         level='DEBUG',
@@ -16,15 +24,23 @@ if __name__ == '__main__':
         retention='1 week',
         compression='zip'
     )
-    logger.info("Запуск бота")
-
     set_default_commands(bot)
     bot.add_custom_filter(custom_filters.StateFilter(bot))
-    users_database.create_tables([UserStates, Cities, CurrentRequests])
-    users_database.close()
+    USER_DATABASE.create_tables([UserStates, Cities, CurrentRequests, HotelsPagination])
+    USER_DATABASE.close()
+    create_pickle()
 
-    try:
-        bot.infinity_polling(skip_pending=True)
-    except KeyboardInterrupt:
-        logger.info("Завершение работы бота")
-        exit()
+    while True:
+        try:
+            logger.info("Запуск бота")
+            bot.polling(skip_pending=True)
+        except KeyboardInterrupt:
+            exit('Завершение программы')
+        except Exception as error:
+            logger.info(f"Ошибка - {error}")
+            bot.stop_polling()
+            time.sleep(1)
+
+
+if __name__ == '__main__':
+    main()

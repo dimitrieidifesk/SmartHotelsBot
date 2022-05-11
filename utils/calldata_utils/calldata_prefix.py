@@ -25,6 +25,8 @@ def calendar_calldata(call: CallbackQuery) -> None:
     message_id: int = call.message.message_id
     message: Message = call.message
 
+    # TODO можно заменить на if elif else ? часть условий
+
     if call_data.startswith(calendar_date_from.prefix):
         text_choice: str = 'Вы выбрали дату въезда:'
         calendar_call(

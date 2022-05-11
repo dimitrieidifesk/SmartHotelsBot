@@ -1,5 +1,6 @@
 from typing import List, Union
 
+# TODO в config_data.config нет users_database
 from config_data.config import users_database
 from database.pewee_database import UserStates, CurrentRequests, Cities
 

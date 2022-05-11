@@ -20,6 +20,7 @@ def calldata_dates(call: CallbackQuery) -> None:
     message: Message = call.message
     bot.edit_message_reply_markup(chat_id, message_id)
 
+    # TODO можно заменить на if elif else ? часть условий
     if call_data == 'date_from_right':
         set_state(chat_id, states='date_before')
         before_date(message)

@@ -31,6 +31,7 @@ def callback_worker(call: CallbackQuery) -> None:
     history: Tuple = ("ecirpwol", "ecirphgih", "laedtseb", "close_history", "close_hotels")
     cities: Tuple = ("city_yes", "city_no")
 
+    # TODO можно заменить на if elif else ?
     if call_data in commands:
         commands_call(call)
     if call_data in cities:

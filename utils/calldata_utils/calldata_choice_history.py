@@ -18,6 +18,7 @@ def calldata_choice_history(call: CallbackQuery) -> None:
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
 
+    # TODO можно заменить на if elif else ? часть условий
     if call_data == "ecirpwol":
         bot.edit_message_text(
             chat_id=chat_id, message_id=message_id,

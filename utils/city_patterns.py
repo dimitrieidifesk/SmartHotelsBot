@@ -1,0 +1,7 @@
+PATTERN_CITY_GROUP = r'(?<="CITY_GROUP",).+?[\]]'
+PATTERN_CITY_APART = r'(?<={").[^}]*'
+PATTERN_CITY = r'(?<="name":").[^"]*'
+PATTERN_COUNTRY = r'\w+(?=","name")'
+PATTERN_ID = r'(?<="destinationId":")\d+'
+PATTERN_LATITUDE = r'(?<="latitude":).+?(?=,)'
+PATTERN_LONGITUDE = r'(?<="longitude":).+?(?=,)'

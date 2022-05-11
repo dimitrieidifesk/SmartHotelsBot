@@ -7,9 +7,9 @@ from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 @logger.catch
 def markup_choice_city() -> InlineKeyboardMarkup:
     """
-    Функция генерирует клавиатуру выбора города если не найден
+    Функция генерирует клавиатуру выбора города если не найден/
     """
-    markup = InlineKeyboardMarkup()
+    markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
         InlineKeyboardButton(text='Да', callback_data='city_yes'),
         InlineKeyboardButton(text='Нет', callback_data='city_no')
@@ -20,7 +20,7 @@ def markup_choice_city() -> InlineKeyboardMarkup:
 @logger.catch
 def city_markup(cities) -> InlineKeyboardMarkup:
     """
-    Функция генерирует клавиатуру выбора города
+    Функция генерирует клавиатуру выбора города.
     """
     buttons: List = []
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup(row_width=1)
@@ -33,7 +33,7 @@ def city_markup(cities) -> InlineKeyboardMarkup:
 @logger.catch
 def markup_choice_date_before() -> InlineKeyboardMarkup:
     """
-    Функция генерирует клавиатуру выбора даты до
+    Функция генерирует клавиатуру выбора даты выезда.
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
@@ -46,7 +46,7 @@ def markup_choice_date_before() -> InlineKeyboardMarkup:
 @logger.catch
 def markup_before_cancel() -> InlineKeyboardMarkup:
     """
-    Функция генерирует клавиатуру выбора даты до (выход)
+    Функция генерирует клавиатуру выбора даты выезда (выход).
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
@@ -59,7 +59,7 @@ def markup_before_cancel() -> InlineKeyboardMarkup:
 @logger.catch
 def markup_choice_date_from() -> InlineKeyboardMarkup:
     """
-    Функция генерирует клавиатуру выбора даты от
+    Функция генерирует клавиатуру выбора даты въезда.
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
@@ -72,7 +72,7 @@ def markup_choice_date_from() -> InlineKeyboardMarkup:
 @logger.catch
 def markup_choice_cancel() -> InlineKeyboardMarkup:
     """
-    Функция генерирует клавиатуру выбора даты от (выход)
+    Функция генерирует клавиатуру выбора даты въезда (выход).
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(

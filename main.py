@@ -6,7 +6,6 @@ from telebot import custom_filters
 from config_data.config import USER_DATABASE
 from database.pewee_database import UserStates, Cities, CurrentRequests, HotelsPagination
 from loader import bot
-from utils.db_utils.database_history import create_pickle
 from utils.set_bot_commands import set_default_commands
 import handlers
 
@@ -28,7 +27,6 @@ def main() -> None:
     bot.add_custom_filter(custom_filters.StateFilter(bot))
     USER_DATABASE.create_tables([UserStates, Cities, CurrentRequests, HotelsPagination])
     USER_DATABASE.close()
-    create_pickle()
 
     while True:
         try:

@@ -40,6 +40,7 @@ def request_hotels(chat_id: int, sort: str) -> None:
     response_api: Response = get_api(url, querystring)
 
     if not response_api:
+        logger.info(f"Чат - {chat_id}, по команде {user_command} ничего не найдено")
         bot.send_message(
             chat_id, "В городе ничего не найдено, желаете продолжить?",
             reply_markup=markup_start(DEFAULT_COMMANDS)
@@ -49,6 +50,7 @@ def request_hotels(chat_id: int, sort: str) -> None:
     else:
         hotels: Union[List, bool] = hotels_check(response_api)
         if not hotels:
+            logger.info(f"Чат - {chat_id}, по команде {user_command} ничего не найдено")
             bot.send_message(
                 chat_id, "В городе ничего не найдено, желаете продолжить?",
                 reply_markup=markup_start(DEFAULT_COMMANDS)
@@ -60,6 +62,8 @@ def request_hotels(chat_id: int, sort: str) -> None:
     date_out: str = get_current_requests(chat_id, "check_out")
     days_all: int = price_all_days(date_in, date_out)
     show_photo: int = get_current_requests(chat_id, "images")
+
+    logger.info(f"Чат - {chat_id}, по команде {user_command} отправляются результаты поиска")
     for hotel in hotels:
         price: str = hotel['day_price'].replace(',', '').split()
         if days_all in [0, 1]:
@@ -115,6 +119,7 @@ def request_hotels(chat_id: int, sort: str) -> None:
                 bot.send_message(chat_id, hotel_info, disable_web_page_preview=True)
             else:
                 return
+
     if get_state(chat_id, 'states') == "send_result":
         set_current_requests(chat_id, default=True)
         bot.send_message(

@@ -1,9 +1,12 @@
 from typing import List
 
+from loguru import logger
+
 from config_data.config import USER_DATABASE
 from database.pewee_database import Cities
 
-# TODO нужно логировать работу всех метода и функций
+
+@logger.catch
 def add_cities(cities: List) -> None:
     """
     Функция записывает в таблицу Cities users_database найденные города.

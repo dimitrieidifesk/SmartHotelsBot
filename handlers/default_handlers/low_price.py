@@ -13,13 +13,7 @@ def send_lowprice(message: Message) -> None:
     Функция-хэндлер предлагает ввести город для поиска lowprice.
     """
     chat_id: int = message.chat.id
-    if message.from_user.full_name != "HotelsFindBot":
-        logger.info(
-            f"Пользователь {message.from_user.full_name}({message.from_user.username}),"
-            f" message.chat.id - {chat_id} запустил команду lowprice"
-        )
-    else:
-        logger.info(f"Бот из чата - {chat_id} запустил команду lowprice")
+    logger.info(f"В чате - {chat_id} пользователь запустил команду lowprice")
     set_state(chat_id, states='city')
     set_current_requests(chat_id, default=True)
     set_current_requests(chat_id, current_command='lowprice')

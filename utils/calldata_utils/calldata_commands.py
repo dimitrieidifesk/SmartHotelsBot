@@ -18,17 +18,17 @@ def commands_call(call: CallbackQuery) -> None:
     message_id: int = call.message.message_id
     message: Message = call.message
     bot.edit_message_reply_markup(chat_id, message_id)
-    # TODO можно заменить на if elif else ? часть условий
 
     if call_data == "lowprice":
         bot.send_message(call.message.chat.id, f"Вы выбрали /{call_data}")
         send_lowprice(message)
-    if call_data == "highprice":
+    elif call_data == "highprice":
         bot.send_message(chat_id, f"Вы выбрали /{call_data}")
         send_highprice(message)
-    if call_data == "bestdeal":
+    elif call_data == "bestdeal":
         bot.send_message(chat_id, f"Вы выбрали /{call_data}")
         send_bestdeal(message)
-    if call_data == "history":
+    else:
+        # "history"
         bot.send_message(chat_id, f"Вы выбрали /{call_data}")
         send_history(message)

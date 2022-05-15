@@ -43,6 +43,7 @@ def request_hotels_bestdeal(chat_id: int) -> None:
         }
         response_api: Response = get_api(url, querystring)
         if not response_api:
+            logger.info(f"Чат - {chat_id}, по команде bestdeal ничего не найдено")
             bot.send_message(
                 chat_id, "В городе ничего не найдено, желаете продолжить?",
                 reply_markup=markup_start(DEFAULT_COMMANDS)
@@ -55,6 +56,7 @@ def request_hotels_bestdeal(chat_id: int) -> None:
                 hotels.extend(current_result)
 
     if not hotels:
+        logger.info(f"Чат - {chat_id}, по команде bestdeal ничего не найдено")
         bot.send_message(
             chat_id, "В городе ничего не найдено, желаете продолжить?",
             reply_markup=markup_start(DEFAULT_COMMANDS)
@@ -67,6 +69,8 @@ def request_hotels_bestdeal(chat_id: int) -> None:
     days_all: int = price_all_days(date_in, date_out)
     show_photo: int = get_current_requests(chat_id, "images")
     count_hotels: int = 0
+
+    logger.info(f"Чат - {chat_id}, по команде bestdeal отправляются результаты поиска")
     for hotel in hotels:
         if count_hotels == hotels_count:
             break

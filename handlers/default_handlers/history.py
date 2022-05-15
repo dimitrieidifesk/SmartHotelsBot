@@ -19,14 +19,15 @@ def send_history(message: Message) -> None:
     Функция-хэндлер отправляет пользователю историю запросов.
     """
     chat_id: int = message.chat.id
-    date: Dict = get_pickle()
-    if chat_id not in date:
+    logger.info(f"В чате - {chat_id} пользователь запустил команду history")
+    date: Dict = get_pickle(chat_id)
+    if not date:
         bot.send_message(chat_id, "История поиска пуста.")
 
     else:
-        markup: InlineKeyboardMarkup = show_commands(date[chat_id].keys())
+        markup: InlineKeyboardMarkup = show_commands(list(date.keys()))
         bot.send_message(chat_id, "Выберите историю поиска которую показать:", reply_markup=markup)
-    set_state(chat_id, states="choice_history")
+        set_state(chat_id, states="choice_history")
 
 
 @logger.catch
@@ -36,12 +37,12 @@ def send_character_page(message, page=1, command=None, city_id=None):
     """
     chat_id: int = message.chat.id
     if command:
-        date: Dict = get_pickle()
-        hotels_pages: List = date[chat_id][command][city_id][1:]
+        date: Dict = get_pickle(chat_id)
+        hotels_pages: List = date[command][city_id][1:]
     else:
         command_pickle, city_id_pickle = get_pagination(message.id)
-        date: Dict = get_pickle()
-        hotels_pages: List = date[chat_id][command_pickle][city_id_pickle][1:]
+        date: Dict = get_pickle(chat_id)
+        hotels_pages: List = date[command_pickle][city_id_pickle][1:]
 
     paginator: InlineKeyboardPaginator = InlineKeyboardPaginator(
         len(hotels_pages),

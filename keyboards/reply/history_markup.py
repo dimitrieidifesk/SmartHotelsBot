@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from loguru import logger
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -27,15 +27,15 @@ def show_search_hotel(command: str, chat_id) -> InlineKeyboardMarkup:
     """
     Функция генерирует клавиатуру выбора истории команды
     """
-    date = get_pickle()
+    date: Dict = get_pickle(chat_id)
 
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup(row_width=1)
     buttons: List = []
 
-    for city_id in date[chat_id][command]:
+    for city_id in date[command]:
         city_name = get_cities(city_id, 'name')
         buttons.append(InlineKeyboardButton(
-            text=f'{date[chat_id][command][city_id][0]} {city_name}',
+            text=f'{date[command][city_id][0]} {city_name}',
             callback_data=f'final {command} {city_id}')
         )
     buttons.append(InlineKeyboardButton(text='Закрыть просмотр', callback_data='close_hotels'))

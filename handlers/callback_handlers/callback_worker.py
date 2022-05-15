@@ -31,25 +31,25 @@ def callback_worker(call: CallbackQuery) -> None:
     history: Tuple = ("ecirpwol", "ecirphgih", "laedtseb", "close_history", "close_hotels")
     cities: Tuple = ("city_yes", "city_no")
 
-    # TODO можно заменить на if elif else ?
     if call_data in commands:
         commands_call(call)
-    if call_data in cities:
+    elif call_data in cities:
         cities_call(call)
-    if call_data.startswith(prefix):
+    elif call_data.startswith(prefix):
         calendar_calldata(call)
-    if call_data in user_dates:
+    elif call_data in user_dates:
         calldata_dates(call)
-    if call_data in choice_photos:
+    elif call_data in choice_photos:
         calldata_choice_photos(call)
 
-    if call_data in history:
+    elif call_data in history:
         calldata_choice_history(call)
 
-    if call_data.split('#')[0] == 'character':
+    elif call_data.split('#')[0] == 'character':
         page = int(call_data.split('#')[1])
         send_character_page(call.message, page=page)
-    if call_data == "back":
+    else:
+        # "back"
         bot.delete_message(
             call.message.chat.id,
             call.message.message_id

@@ -1,3 +1,4 @@
+import telebot
 from loguru import logger
 from telebot.types import CallbackQuery, Message
 
@@ -17,7 +18,10 @@ def commands_call(call: CallbackQuery) -> None:
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
     message: Message = call.message
-    bot.edit_message_reply_markup(chat_id, message_id)
+    try:
+        bot.edit_message_reply_markup(chat_id, message_id)
+    except telebot.apihelper.ApiTelegramException as error:
+        logger.info(f"Ошибка - {error}")
 
     if call_data == "lowprice":
         bot.send_message(call.message.chat.id, f"Вы выбрали /{call_data}")

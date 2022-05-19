@@ -1,5 +1,6 @@
 from typing import List
 
+import telebot
 from loguru import logger
 from telebot.types import CallbackQuery, Message
 
@@ -38,9 +39,12 @@ def calendar_calldata(call: CallbackQuery) -> None:
             'check_out'
         )
     elif call_data.startswith('id'):
-        bot.delete_message(chat_id=chat_id, message_id=message_id)
-        info_all: List = call_data.split()
+        try:
+            bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except telebot.apihelper.ApiTelegramException as error:
+            logger.info(f"Ошибка - {error}")
 
+        info_all: List = call_data.split()
         result: str = get_cities(int(info_all[1]), "name")
         bot.send_message(chat_id, f"Вы выбрали:\n{result}")
         set_current_requests(chat_id, current_destination_id=int(info_all[1]))

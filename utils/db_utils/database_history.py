@@ -1,6 +1,7 @@
 import datetime
 import shelve
 from collections import OrderedDict
+from threading import Lock
 from typing import Dict, Union
 from loguru import logger
 
@@ -12,14 +13,24 @@ def get_pickle(id_chat: int) -> Union[Dict, object]:
     """
     Функция получает из файла историю запросов пользователя.
     """
-    key: str = f'{id_chat}'
-    with shelve.open(DATA_HISTORY, writeback=True) as file:
-        if key in file:
-            result: object = file[key]
-            return result
-        else:
-            result = {}
-            return result
+    key: str = str(id_chat)
+    mutex = Lock()
+
+    mutex.acquire()
+    db = shelve.open(DATA_HISTORY)
+    if key in db:
+        result: object = db[key]
+        db.close()
+        mutex.release()
+        return result
+    else:
+        db.close()
+        mutex.release()
+        result = {}
+        return result
+
+
+
 
 
 @logger.catch
@@ -42,5 +53,5 @@ def set_pickle(id_chat: int, command: str, destination_id: int, hotel_info: str)
     data_new[command][destination_id].append(hotel_info)
 
     with shelve.open(DATA_HISTORY, writeback=True) as file:
-        key: str = f'{id_chat}'
+        key: str = str(id_chat)
         file[key] = data_new

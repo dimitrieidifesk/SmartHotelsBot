@@ -1,5 +1,6 @@
 from typing import Dict, Union, List
 
+import requests
 import telebot
 from loguru import logger
 from requests import Response
@@ -116,7 +117,7 @@ def request_hotels_bestdeal(chat_id: int) -> None:
                     set_pickle(chat_id, user_command, destination_id, hotel_info)
                     try:
                         bot.send_media_group(chat_id, medias)
-                    except telebot.apihelper.ApiTelegramException:
+                    except (telebot.apihelper.ApiTelegramException, requests.exceptions.ReadTimeout):
                         bot.send_message(
                             chat_id, "Упс что то пошло не так. Фото не загрузилось\n" + hotel_info,
                             disable_web_page_preview=True

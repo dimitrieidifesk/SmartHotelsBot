@@ -1,7 +1,6 @@
 import time
 
 from loguru import logger
-from telebot import custom_filters
 
 from config_data.config import USER_DATABASE
 from database.pewee_database import UserStates, Cities, CurrentRequests, HotelsPagination
@@ -24,7 +23,6 @@ def main() -> None:
         compression='zip'
     )
     set_default_commands(bot)
-    bot.add_custom_filter(custom_filters.StateFilter(bot))
     USER_DATABASE.create_tables([UserStates, Cities, CurrentRequests, HotelsPagination])
     USER_DATABASE.close()
 
@@ -33,7 +31,9 @@ def main() -> None:
             logger.info("Запуск бота")
             bot.polling(skip_pending=True)
         except KeyboardInterrupt:
-            exit('Завершение программы')
+            logger.info("Завершение работы")
+            exit()
+            return
         except Exception as error:
             logger.info(f"Ошибка - {error}")
             bot.stop_polling()

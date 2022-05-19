@@ -1,3 +1,4 @@
+import telebot
 from loguru import logger
 from telebot.types import CallbackQuery, Message
 
@@ -18,7 +19,10 @@ def calldata_dates(call: CallbackQuery) -> None:
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
     message: Message = call.message
-    bot.edit_message_reply_markup(chat_id, message_id)
+    try:
+        bot.edit_message_reply_markup(chat_id, message_id)
+    except telebot.apihelper.ApiTelegramException as error:
+        logger.info(f"Ошибка - {error}")
 
     if call_data == 'date_from_right':
         set_state(chat_id, states='date_before')

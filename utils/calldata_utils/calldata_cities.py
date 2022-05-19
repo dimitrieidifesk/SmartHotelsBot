@@ -1,3 +1,4 @@
+import telebot
 from loguru import logger
 from telebot.types import CallbackQuery
 
@@ -14,7 +15,10 @@ def cities_call(call: CallbackQuery) -> None:
     call_data: str = call.data
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
-    bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id)
+    try:
+        bot.edit_message_reply_markup(chat_id, message_id)
+    except telebot.apihelper.ApiTelegramException as error:
+        logger.info(f"Ошибка - {error}")
 
     if call_data == "city_yes":
         bot.send_message(chat_id, "Вы выбрали 'Да'")

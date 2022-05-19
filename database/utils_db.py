@@ -1,39 +1,43 @@
 from typing import List, Union
 
-# TODO в config_data.config нет users_database
-from config_data.config import users_database
+from loguru import logger
+
+from config_data.config import USER_DATABASE
 from database.pewee_database import UserStates, CurrentRequests, Cities
 
 
+@logger.catch
 def get_state(current_id: int) -> str:
-    """
-    Функция устанавливает состояние пользователя в таблицу UserStates users_database.
-    """
-    query = UserStates.select().where(UserStates.chat_id == current_id)
-    if query.exists():
-        row = UserStates.get(UserStates.chat_id == current_id)
-        users_database.close()
-        return row.states
-    else:
-        users_database.close()
-        return '0'
-
-
-def set_state(current_id: int, user_states: str) -> None:
     """
     Функция возвращает значение состояния пользователя из таблицы UserStates users_database.
     """
     query = UserStates.select().where(UserStates.chat_id == current_id)
     if query.exists():
         row = UserStates.get(UserStates.chat_id == current_id)
+        USER_DATABASE.close()
+        return row.states
+    else:
+        USER_DATABASE.close()
+        return '0'
+
+
+@logger.catch
+def set_state(current_id: int, user_states: str) -> None:
+    """
+    Функция устанавливает состояние пользователя в таблицу UserStates users_database.
+    """
+    query = UserStates.select().where(UserStates.chat_id == current_id)
+    if query.exists():
+        row = UserStates.get(UserStates.chat_id == current_id)
         row.states = user_states
         row.save()
-        users_database.close()
+        USER_DATABASE.close()
     else:
         UserStates.create(chat_id=current_id, states=user_states)
-        users_database.close()
+        USER_DATABASE.close()
 
 
+@logger.catch
 def set_current_requests(
         current_id: int, default: bool = False,
         current_command: str = None, current_destination_id: int = None,
@@ -50,10 +54,10 @@ def set_current_requests(
         if query.exists():
             row = CurrentRequests.delete().where(CurrentRequests.chat_id == current_id)
             row.execute()
-            users_database.close()
+            USER_DATABASE.close()
             return
         else:
-            users_database.close()
+            USER_DATABASE.close()
             return
     query = CurrentRequests.select().where(CurrentRequests.chat_id == current_id)
     if not query.exists():
@@ -80,9 +84,10 @@ def set_current_requests(
     if current_check_out:
         row.check_out = current_check_out
     row.save()
-    users_database.close()
+    USER_DATABASE.close()
 
 
+@logger.catch
 def get_current_requests(current_id: int, column: str) -> Union[str, int]:
     """
     Функция возвращает значения колонок из таблицы CurrentRequests users_database.
@@ -91,28 +96,29 @@ def get_current_requests(current_id: int, column: str) -> Union[str, int]:
     if query.exists():
         row = CurrentRequests.get(CurrentRequests.chat_id == current_id)
         if column == 'command':
-            users_database.close()
+            USER_DATABASE.close()
             return row.command
         elif column == 'destination_id':
-            users_database.close()
+            USER_DATABASE.close()
             return row.destination_id
         elif column == 'hotels':
-            users_database.close()
+            USER_DATABASE.close()
             return row.hotels
         elif column == 'images':
-            users_database.close()
+            USER_DATABASE.close()
             return row.images
         elif column == 'check_in':
-            users_database.close()
+            USER_DATABASE.close()
             return row.check_in
         elif column == 'check_out':
-            users_database.close()
+            USER_DATABASE.close()
             return row.check_out
     else:
-        users_database.close()
+        USER_DATABASE.close()
         return '0'
 
 
+@logger.catch
 def add_cities(cities: List) -> None:
     """
     Функция записывает в таблицу Cities users_database найденные города.
@@ -126,9 +132,10 @@ def add_cities(cities: List) -> None:
         row.latitude = index['latitude']
         row.longitude = index['longitude']
         row.save()
-    users_database.close()
+    USER_DATABASE.close()
 
 
+@logger.catch
 def get_cities(current_destination_id: int, column: str) -> str:
     """
     Функция возвращает из таблицы Cities users_database значения переданной колонки.
@@ -137,14 +144,14 @@ def get_cities(current_destination_id: int, column: str) -> str:
     if query.exists:
         row = Cities.get(Cities.destination_id == current_destination_id)
         if column == 'name':
-            users_database.close()
+            USER_DATABASE.close()
             return row.name
         elif column == 'latitude':
-            users_database.close()
+            USER_DATABASE.close()
             return row.latitude
         elif column == 'longitude':
-            users_database.close()
+            USER_DATABASE.close()
             return row.longitude
     else:
-        users_database.close()
+        USER_DATABASE.close()
         return '0'

@@ -1,5 +1,6 @@
 from typing import List
 
+import telebot
 from loguru import logger
 from telebot.types import CallbackQuery, Message
 
@@ -25,24 +26,25 @@ def calendar_calldata(call: CallbackQuery) -> None:
     message_id: int = call.message.message_id
     message: Message = call.message
 
-    # TODO можно заменить на if elif else ? часть условий
-
     if call_data.startswith(calendar_date_from.prefix):
         text_choice: str = 'Вы выбрали дату въезда:'
         calendar_call(
             call, calendar_date_from.sep, text_choice, markup_choice_date_from(), markup_choice_cancel(), 'check_in'
         )
 
-    if call_data.startswith(calendar_date_before.prefix):
+    elif call_data.startswith(calendar_date_before.prefix):
         text_choice: str = 'Вы выбрали дату выезда:'
         calendar_call(
             call, calendar_date_before.sep, text_choice, markup_choice_date_before(), markup_before_cancel(),
             'check_out'
         )
-    if call_data.startswith('id'):
-        bot.delete_message(chat_id=chat_id, message_id=message_id)
-        info_all: List = call_data.split()
+    elif call_data.startswith('id'):
+        try:
+            bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except telebot.apihelper.ApiTelegramException as error:
+            logger.info(f"Ошибка - {error}")
 
+        info_all: List = call_data.split()
         result: str = get_cities(int(info_all[1]), "name")
         bot.send_message(chat_id, f"Вы выбрали:\n{result}")
         set_current_requests(chat_id, current_destination_id=int(info_all[1]))
@@ -53,7 +55,8 @@ def calendar_calldata(call: CallbackQuery) -> None:
             set_state(chat_id, states='date_from')
             from_date(message)
 
-    if call_data.startswith('final'):
+    else:
+        # 'final'
         bot.delete_message(chat_id, message_id)
         info_all: List = call_data.split()
         send_character_page(message, command=info_all[1], city_id=int(info_all[2]))

@@ -3,13 +3,13 @@ from . import start
 from . import help
 from . import low_price
 from . import bestdeal
+from . import history
 from . import before_date
 from . import city_choice_outside
 from . import choice_history_outside
 from . import from_date
 from . import find_a_city
 from . import high_price
-from . import history
 from . import hotel_number_choice
 from . import max_distance
 from . import max_price

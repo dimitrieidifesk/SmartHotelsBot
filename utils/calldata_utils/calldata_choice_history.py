@@ -18,23 +18,22 @@ def calldata_choice_history(call: CallbackQuery) -> None:
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
 
-    # TODO можно заменить на if elif else ? часть условий
     if call_data == "ecirpwol":
         bot.edit_message_text(
             chat_id=chat_id, message_id=message_id,
             text="Вы выбрали историю 'lowprice'.\nВыберите один из вариантов ниже:",
             reply_markup=show_search_hotel(call_data[::-1], chat_id))
-    if call_data == "ecirphgih":
+    elif call_data == "ecirphgih":
         bot.edit_message_text(
             chat_id=chat_id, message_id=message_id,
             text="Вы выбрали историю 'highprice'.\nВыберите один из вариантов ниже:",
             reply_markup=show_search_hotel(call_data[::-1], chat_id))
-    if call_data == "laedtseb":
+    elif call_data == "laedtseb":
         bot.edit_message_text(
             chat_id=chat_id, message_id=message_id,
             text="Вы выбрали историю 'bestdeal'.\nВыберите один из вариантов ниже:",
             reply_markup=show_search_hotel(call_data[::-1], chat_id))
-    if call_data == "close_history":
+    elif call_data == "close_history":
         bot.delete_message(chat_id=chat_id, message_id=message_id)
         bot.send_message(
             chat_id, "История закрыта, желаете продолжить?\n"
@@ -42,6 +41,7 @@ def calldata_choice_history(call: CallbackQuery) -> None:
         )
         bot.send_message(chat_id, "Описание команд - /help")
         set_state(chat_id, states='0')
-    if call_data == "close_hotels":
+    else:
+        # "close_hotels"
         bot.delete_message(chat_id=chat_id, message_id=message_id)
         send_history(call.message)

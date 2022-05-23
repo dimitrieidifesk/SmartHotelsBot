@@ -30,9 +30,6 @@ def get_pickle(id_chat: int) -> Union[Dict, object]:
         return result
 
 
-
-
-
 @logger.catch
 def set_pickle(id_chat: int, command: str, destination_id: int, hotel_info: str) -> None:
     """
@@ -52,6 +49,10 @@ def set_pickle(id_chat: int, command: str, destination_id: int, hotel_info: str)
 
     data_new[command][destination_id].append(hotel_info)
 
-    with shelve.open(DATA_HISTORY, writeback=True) as file:
-        key: str = str(id_chat)
-        file[key] = data_new
+    key: str = str(id_chat)
+    mutex = Lock()
+    mutex.acquire()
+    db = shelve.open(DATA_HISTORY)
+    db[key] = data_new
+    db.close()
+    mutex.release()

@@ -17,3 +17,13 @@ def bot_start(message: Message):
     bot.send_message(message.from_user.id, "Описание команд - /help")
     set_state(message.chat.id, states="0")
 
+@bot.message_handler(commands=['help'])
+@logger.catch
+def bot_help(message: Message) -> None:
+    """
+    Функция хэндлер отвечает на команду help
+    """
+    text = [f'/{command} - {desk}' for command, desk in DEFAULT_COMMANDS]
+    text.append("Напиши /start либо 'привет', чтобы начать")
+    bot.reply_to(message, '\n'.join(text))
+    set_state(message.chat.id, states='0')

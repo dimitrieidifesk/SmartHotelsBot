@@ -1,11 +1,12 @@
 import time
 
-import handlers
-from config_data.config import USER_DATABASE
-from database.pewee_database import Cities, CurrentRequests, HotelsPagination, UserStates
-from loader import bot
 from loguru import logger
+
+from config_data.config import USER_DATABASE
+from database.pewee_database import UserStates, Cities, CurrentRequests, HotelsPagination
+from loader import bot
 from utils.set_bot_commands import set_default_commands
+import handlers
 
 
 @logger.catch
@@ -14,12 +15,12 @@ def main() -> None:
     Функция запускает бота
     """
     logger.add(
-        "logs/logs.log",
-        level="DEBUG",
+        'logs/logs.log',
+        level='DEBUG',
         format="{time} {level} {message}",
-        rotation="1 week",
-        retention="1 week",
-        compression="zip",
+        rotation='1 week',
+        retention='1 week',
+        compression='zip'
     )
     set_default_commands(bot)
     USER_DATABASE.create_tables([UserStates, Cities, CurrentRequests, HotelsPagination])
@@ -39,5 +40,5 @@ def main() -> None:
             time.sleep(1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

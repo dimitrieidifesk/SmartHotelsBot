@@ -12,13 +12,13 @@ def get_state(current_id: int, column: str) -> Union[str, int]:
     if query.exists():
         row = UserStates.get(UserStates.chat_id == current_id)
         USER_DATABASE.close()
-        if column == "states":
+        if column == 'states':
             return row.states
-        elif column == "message_id":
+        elif column == 'message_id':
             return row.message_id
     else:
         USER_DATABASE.close()
-        return "0"
+        return '0'
 
 
 def set_state(current_id: int, states: str = None, message_id: int = None) -> None:
@@ -27,7 +27,7 @@ def set_state(current_id: int, states: str = None, message_id: int = None) -> No
     """
     query = UserStates.select().where(UserStates.chat_id == current_id)
     if not query.exists():
-        UserStates.create(chat_id=current_id, states="0", message_id=0)
+        UserStates.create(chat_id=current_id, states='0', message_id=0)
 
     row = UserStates.get(UserStates.chat_id == current_id)
     if states:

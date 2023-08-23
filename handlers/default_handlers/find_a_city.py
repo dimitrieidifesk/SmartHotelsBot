@@ -1,10 +1,11 @@
-from typing import Dict, List, Union
+from typing import Dict, Union, List
 
-from keyboards.reply.common_markup import city_markup, markup_choice_city
-from loader import bot
 from loguru import logger
 from requests import Response
 from telebot.types import Message
+
+from keyboards.reply.common_markup import city_markup, markup_choice_city
+from loader import bot
 from utils.db_utils.state import get_state, set_state
 from utils.misc.city_check import city_check
 from utils.misc.get_api import get_api

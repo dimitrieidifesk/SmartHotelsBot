@@ -16,3 +16,4 @@ def bot_start(message: Message):
     )
     bot.send_message(message.from_user.id, "Описание команд - /help")
     set_state(message.chat.id, states="0")
+

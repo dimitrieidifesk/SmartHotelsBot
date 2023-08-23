@@ -3,9 +3,9 @@ import shelve
 from collections import OrderedDict
 from threading import Lock
 from typing import Dict, Union
-from loguru import logger
 
 from config_data.config import DATA_HISTORY, NUMBER_HISTORY
+from loguru import logger
 
 
 @logger.catch

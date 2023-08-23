@@ -1,13 +1,12 @@
 import telebot
-from loguru import logger
-from telebot.types import CallbackQuery, Message
-
 from handlers.default_handlers.before_date import before_date
 from handlers.default_handlers.cancel import any_state
-from utils.db_utils.state import set_state
-from utils.misc.check_dates import check_dates
 from handlers.default_handlers.from_date import from_date
 from loader import bot
+from loguru import logger
+from telebot.types import CallbackQuery, Message
+from utils.db_utils.state import set_state
+from utils.misc.check_dates import check_dates
 
 
 @logger.catch
@@ -24,21 +23,21 @@ def calldata_dates(call: CallbackQuery) -> None:
     except telebot.apihelper.ApiTelegramException as error:
         logger.info(f"Ошибка - {error}")
 
-    if call_data == 'date_from_right':
-        set_state(chat_id, states='date_before')
+    if call_data == "date_from_right":
+        set_state(chat_id, states="date_before")
         before_date(message)
-    elif call_data == 'date_from_to_change':
+    elif call_data == "date_from_to_change":
         from_date(message)
-    elif call_data == 'date_from_cancel':
+    elif call_data == "date_from_cancel":
         any_state(message)
-    elif call_data == 'date_from_to_continue':
+    elif call_data == "date_from_to_continue":
         from_date(message)
 
-    elif call_data == 'date_before_right':
+    elif call_data == "date_before_right":
         check_dates(chat_id)
-    elif call_data == 'date_before_to_change':
+    elif call_data == "date_before_to_change":
         before_date(message)
-    elif call_data == 'date_before_cancel':
+    elif call_data == "date_before_cancel":
         any_state(message)
     else:
         # 'date_before_to_continue'

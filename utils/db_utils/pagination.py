@@ -10,7 +10,7 @@ def set_pagination(message_id: int, city_id: int, command: str) -> None:
     """
     query = HotelsPagination.select().where(HotelsPagination.message_id == message_id)
     if not query.exists():
-        HotelsPagination.create(message_id=message_id, command='0', city_id=0)
+        HotelsPagination.create(message_id=message_id, command="0", city_id=0)
     row = HotelsPagination.get(HotelsPagination.message_id == message_id)
     row.command = command
     row.city_id = city_id

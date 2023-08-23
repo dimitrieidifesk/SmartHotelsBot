@@ -1,4 +1,4 @@
-PATTERN_CITY_GROUP = r'(?<="CITY_GROUP",).+?[\]]'
+PATTERN_CITY_GROUP = r'(?<="sr":)\[[^\]]*\]'
 PATTERN_CITY_APART = r'(?<={").[^}]*'
 PATTERN_CITY = r'(?<="name":").[^"]*'
 PATTERN_COUNTRY = r'\w+(?=","name")'

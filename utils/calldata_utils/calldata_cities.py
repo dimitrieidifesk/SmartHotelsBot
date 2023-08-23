@@ -1,10 +1,9 @@
 import telebot
-from loguru import logger
-from telebot.types import CallbackQuery
-
 from handlers.default_handlers.cancel import any_state
 from handlers.default_handlers.low_price import send_lowprice
 from loader import bot
+from loguru import logger
+from telebot.types import CallbackQuery
 
 
 @logger.catch

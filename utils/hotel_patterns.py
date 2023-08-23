@@ -3,7 +3,7 @@ PATTERN_NAME_HOTEL = r'(?<="name":").[^"}]*'
 PATTERN_STREET = r'(?<="streetAddress":").[^"}]*'
 PATTERN_LOCALITY = r'(?<=locality":").[^"}]*'
 PATTERN_HOTEL_APART = r'(?<={"id":).*?(?:=high")'
-PATTERN_ID_HOTEL = r'\d+.*?'
+PATTERN_ID_HOTEL = r"\d+.*?"
 PATTERN_COUNTRY = r'(?<=countryName":").[^"}]*'
 PATTERN_DAY_PRICE = r'(?<="current":").[^"}]*'
 PATTERN_DISTANCE = r'(?<="Центр города","distance":").[^"}]*'

@@ -11,8 +11,8 @@ def markup_choice_city() -> InlineKeyboardMarkup:
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(text='Да', callback_data='city_yes'),
-        InlineKeyboardButton(text='Нет', callback_data='city_no')
+        InlineKeyboardButton(text="Да", callback_data="city_yes"),
+        InlineKeyboardButton(text="Нет", callback_data="city_no"),
     )
     return markup
 
@@ -25,7 +25,11 @@ def city_markup(cities) -> InlineKeyboardMarkup:
     buttons: List = []
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup(row_width=1)
     for index in cities:
-        buttons.append(InlineKeyboardButton(text=index['city_name'], callback_data=f'id {index["destination_id"]}'))
+        buttons.append(
+            InlineKeyboardButton(
+                text=index["city_name"], callback_data=f'id {index["destination_id"]}'
+            )
+        )
     markup.add(*buttons)
     return markup
 
@@ -37,8 +41,8 @@ def markup_choice_date_before() -> InlineKeyboardMarkup:
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(text='Все верно', callback_data='date_before_right'),
-        InlineKeyboardButton(text='Изменить', callback_data='date_before_to_change')
+        InlineKeyboardButton(text="Все верно", callback_data="date_before_right"),
+        InlineKeyboardButton(text="Изменить", callback_data="date_before_to_change"),
     )
     return markup
 
@@ -50,8 +54,8 @@ def markup_before_cancel() -> InlineKeyboardMarkup:
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(text='Завершить', callback_data='date_before_cancel'),
-        InlineKeyboardButton(text='Продолжить', callback_data='date_before_to_continue')
+        InlineKeyboardButton(text="Завершить", callback_data="date_before_cancel"),
+        InlineKeyboardButton(text="Продолжить", callback_data="date_before_to_continue"),
     )
     return markup
 
@@ -63,8 +67,8 @@ def markup_choice_date_from() -> InlineKeyboardMarkup:
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(text='Все верно', callback_data='date_from_right'),
-        InlineKeyboardButton(text='Изменить', callback_data='date_from_to_change')
+        InlineKeyboardButton(text="Все верно", callback_data="date_from_right"),
+        InlineKeyboardButton(text="Изменить", callback_data="date_from_to_change"),
     )
     return markup
 
@@ -76,8 +80,8 @@ def markup_choice_cancel() -> InlineKeyboardMarkup:
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(text='Завершить', callback_data='date_from_cancel'),
-        InlineKeyboardButton(text='Продолжить', callback_data='date_from_to_continue')
+        InlineKeyboardButton(text="Завершить", callback_data="date_from_cancel"),
+        InlineKeyboardButton(text="Продолжить", callback_data="date_from_to_continue"),
     )
     return markup
 
@@ -91,11 +95,9 @@ def markup_start(commands) -> InlineKeyboardMarkup:
     buttons: List = []
 
     for index in commands:
-        if index[0] in ('start', 'help', 'cancel'):
+        if index[0] in ("start", "help", "cancel"):
             continue
-        buttons.append(InlineKeyboardButton(
-            text=f'/{index[0]}', callback_data=index[0])
-        )
+        buttons.append(InlineKeyboardButton(text=f"/{index[0]}", callback_data=index[0]))
 
     markup.add(*buttons)
     return markup
@@ -108,7 +110,7 @@ def markup_choice_photo() -> InlineKeyboardMarkup:
     """
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(text='Да', callback_data='choice_photo_yes'),
-        InlineKeyboardButton(text='Нет', callback_data='choice_photo_no')
+        InlineKeyboardButton(text="Да", callback_data="choice_photo_yes"),
+        InlineKeyboardButton(text="Нет", callback_data="choice_photo_no"),
     )
     return markup

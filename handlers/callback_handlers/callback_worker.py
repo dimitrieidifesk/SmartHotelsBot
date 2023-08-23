@@ -1,11 +1,10 @@
 from typing import Tuple
 
+from handlers.default_handlers.history import send_character_page, send_history
+from keyboards.other.calendar import calendar_date_before, calendar_date_from
+from loader import bot
 from loguru import logger
 from telebot.types import CallbackQuery
-
-from handlers.default_handlers.history import send_character_page, send_history
-from keyboards.other.calendar import calendar_date_from, calendar_date_before
-from loader import bot
 from utils.calldata_utils.calldata_choice_history import calldata_choice_history
 from utils.calldata_utils.calldata_choice_photos import calldata_choice_photos
 from utils.calldata_utils.calldata_cities import cities_call
@@ -24,8 +23,14 @@ def callback_worker(call: CallbackQuery) -> None:
     prefix: Tuple = (calendar_date_from.prefix, calendar_date_before.prefix, "id", "final")
     commands: Tuple = ("lowprice", "highprice", "bestdeal", "history")
     user_dates: Tuple = (
-        'date_from_right', 'date_from_to_change', 'date_from_cancel', 'date_from_to_continue',
-        'date_before_right', 'date_before_to_change', 'date_before_cancel', 'date_before_to_continue'
+        "date_from_right",
+        "date_from_to_change",
+        "date_from_cancel",
+        "date_from_to_continue",
+        "date_before_right",
+        "date_before_to_change",
+        "date_before_cancel",
+        "date_before_to_continue",
     )
     choice_photos: Tuple = ("choice_photo_yes", "choice_photo_no")
     history: Tuple = ("ecirpwol", "ecirphgih", "laedtseb", "close_history", "close_hotels")
@@ -45,13 +50,10 @@ def callback_worker(call: CallbackQuery) -> None:
     elif call_data in history:
         calldata_choice_history(call)
 
-    elif call_data.split('#')[0] == 'character':
-        page = int(call_data.split('#')[1])
+    elif call_data.split("#")[0] == "character":
+        page = int(call_data.split("#")[1])
         send_character_page(call.message, page=page)
     else:
         # "back"
-        bot.delete_message(
-            call.message.chat.id,
-            call.message.message_id
-        )
+        bot.delete_message(call.message.chat.id, call.message.message_id)
         send_history(call.message)

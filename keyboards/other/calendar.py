@@ -1,6 +1,6 @@
 from typing import Any
 
-from telebot_calendar import Calendar, CallbackData, RUSSIAN_LANGUAGE
+from telebot_calendar import RUSSIAN_LANGUAGE, Calendar, CallbackData
 
 calendar: Any = Calendar(language=RUSSIAN_LANGUAGE)
 calendar_date_from: Any = CallbackData("calendar_date_from", "action", "year", "month", "day")

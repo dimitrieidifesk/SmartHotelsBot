@@ -1,12 +1,11 @@
 import telebot
-from loguru import logger
-from telebot.types import CallbackQuery, Message
-
 from handlers.default_handlers.bestdeal import send_bestdeal
 from handlers.default_handlers.high_price import send_highprice
 from handlers.default_handlers.history import send_history
 from handlers.default_handlers.low_price import send_lowprice
 from loader import bot
+from loguru import logger
+from telebot.types import CallbackQuery, Message
 
 
 @logger.catch

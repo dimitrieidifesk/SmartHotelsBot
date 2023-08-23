@@ -1,6 +1,5 @@
-from peewee import Model, TextField, IntegerField
-
 from config_data.config import USER_DATABASE
+from peewee import IntegerField, Model, TextField
 
 
 class Cities(Model):
@@ -13,6 +12,7 @@ class Cities(Model):
     latitude: str =  широта
     longitude: str = долгота
     """
+
     destination_id = IntegerField(primary_key=True)
     name = TextField()
     latitude = TextField()
@@ -39,6 +39,7 @@ class CurrentRequests(Model):
     distance_min: int = мин дистанция
     distance_max: int = макс дистанция
     """
+
     chat_id = IntegerField(primary_key=True)
     command = TextField()
     destination_id = IntegerField()
@@ -64,6 +65,7 @@ class UserStates(Model):
     states: str = состояние пользователя
     message_id: int = ид предыдущего отправленного ботом сообщения
     """
+
     chat_id = IntegerField(primary_key=True)
     states = TextField()
     message_id = IntegerField()
@@ -74,13 +76,14 @@ class UserStates(Model):
 
 class HotelsPagination(Model):
     """
-        Класс HotelsPagination используется для создания таблицы хранящих сведения истории в БД users_database
-        Attributes
-        _________
-        chat_id: int = ИД чата
-        states: str = состояние пользователя
-        message_id: int = ид сообщения с пагинацией
-        """
+    Класс HotelsPagination используется для создания таблицы хранящих сведения истории в БД users_database
+    Attributes
+    _________
+    chat_id: int = ИД чата
+    states: str = состояние пользователя
+    message_id: int = ид сообщения с пагинацией
+    """
+
     message_id = IntegerField(primary_key=True)
     command = TextField()
     city_id = IntegerField()

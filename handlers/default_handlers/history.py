@@ -1,18 +1,17 @@
 from typing import Dict, List
 
 import telebot
-from loguru import logger
-from telebot.types import Message, InlineKeyboardMarkup
-from telegram_bot_pagination import InlineKeyboardPaginator, InlineKeyboardButton
-
 from keyboards.reply.history_markup import show_commands
 from loader import bot
+from loguru import logger
+from telebot.types import InlineKeyboardMarkup, Message
+from telegram_bot_pagination import InlineKeyboardButton, InlineKeyboardPaginator
 from utils.db_utils.database_history import get_pickle
 from utils.db_utils.pagination import get_pagination, set_pagination
-from utils.db_utils.state import set_state, get_state
+from utils.db_utils.state import get_state, set_state
 
 
-@bot.message_handler(commands=['history'])
+@bot.message_handler(commands=["history"])
 @logger.catch
 def send_history(message: Message) -> None:
     """
@@ -45,18 +44,16 @@ def send_character_page(message, page=1, command=None, city_id=None):
         hotels_pages: List = date[command_pickle][city_id_pickle][1:]
 
     paginator: InlineKeyboardPaginator = InlineKeyboardPaginator(
-        len(hotels_pages),
-        current_page=page,
-        data_pattern='character#{page}'
+        len(hotels_pages), current_page=page, data_pattern="character#{page}"
     )
-    paginator.add_after(InlineKeyboardButton('Закрыть', callback_data='back'))
+    paginator.add_after(InlineKeyboardButton("Закрыть", callback_data="back"))
     if command:
         current_message: Message = bot.send_message(
             chat_id,
             hotels_pages[page - 1],
             reply_markup=paginator.markup,
-            parse_mode='Markdown',
-            disable_web_page_preview=True
+            parse_mode="Markdown",
+            disable_web_page_preview=True,
         )
         set_pagination(current_message.id, city_id, command)
         set_state(chat_id, message_id=current_message.id)
@@ -64,11 +61,12 @@ def send_character_page(message, page=1, command=None, city_id=None):
         message_id: int = get_state(chat_id, "message_id")
         try:
             bot.edit_message_text(
-                chat_id=message.chat.id, message_id=message_id,
+                chat_id=message.chat.id,
+                message_id=message_id,
                 text=hotels_pages[page - 1],
                 reply_markup=paginator.markup,
-                parse_mode='Markdown',
-                disable_web_page_preview=True
+                parse_mode="Markdown",
+                disable_web_page_preview=True,
             )
         except telebot.apihelper.ApiTelegramException:
             pass
